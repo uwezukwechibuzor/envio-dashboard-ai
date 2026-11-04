@@ -1,0 +1,14 @@
+{
+  "id": "venus",
+  "name": "Venus",
+  "aliases": ["venus-protocol", "venus-bsc", "xvs", "venus finance"],
+  "template": "lending-compound",
+  "parentProtocol": "compound-v2",
+  "chains": {
+    "56": {
+      "startBlock": 1253453,
+      "comptroller": "0xfD36E2c2a6789Db23113685031d7F16329158384"
+    }
+  },
+  "notes": "BSC fork of Compound V2. Comptroller from https://github.com/VenusProtocol/venus-protocol/blob/main/deployments/bsc.json. Same MarketListed/Mint/Borrow event signatures as Compound V2."
+}

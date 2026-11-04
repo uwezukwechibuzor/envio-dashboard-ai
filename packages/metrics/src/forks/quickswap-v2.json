@@ -1,0 +1,14 @@
+{
+  "id": "quickswap-v2",
+  "name": "QuickSwap V2",
+  "aliases": ["quickswap_v2", "quick-v2", "quickswap v2", "quickswap"],
+  "template": "dex-v2",
+  "chains": {
+    "137": {
+      "startBlock": 4931780,
+      "factory": "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32"
+    }
+  },
+  "feeBps": 30,
+  "notes": "Polygon only. Factory from https://github.com/QuickSwap/quickswap-core. Same PairCreated/Swap event signatures as Uniswap V2. USDC and USDT on Polygon are bridged (PoS) versions."
+}

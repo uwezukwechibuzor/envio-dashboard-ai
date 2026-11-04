@@ -1,0 +1,18 @@
+{
+  "id": "sushiswap-v3",
+  "name": "SushiSwap V3",
+  "aliases": ["sushiswap_v3", "sushiv3", "sushi-v3", "sushiswap v3"],
+  "template": "dex-v3",
+  "parentProtocol": "uniswap-v3",
+  "chains": {
+    "1": {
+      "startBlock": 17000000,
+      "factory": "0xbACEB8eC6b9355Dfc0269C18bac9d6E2Bdc29C4f"
+    },
+    "42161": {
+      "startBlock": 101000000,
+      "factory": "0x1af415a1EbA07a4986a52B6f2e7dE7003D82231e"
+    }
+  },
+  "notes": "Uses same PoolCreated and Swap event signatures as Uniswap V3. Factory addresses from https://github.com/sushiswap/v3-core/tree/main/deployments. Pool fee tiers: 100, 500, 3000, 10000."
+}

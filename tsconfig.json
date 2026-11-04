@@ -5,7 +5,8 @@
     "paths": {
       "@envio-dashboard-ai/core": ["./packages/core/src/index.ts"],
       "@envio-dashboard-ai/hypersync": ["./packages/hypersync/src/index.ts"],
-      "@envio-dashboard-ai/metrics": ["./packages/metrics/src/index.ts"]
+      "@envio-dashboard-ai/metrics": ["./packages/metrics/src/index.ts"],
+      "@envio-dashboard-ai/mcp-server": ["./packages/mcp-server/src/index.ts"]
     }
   },
   "include": [

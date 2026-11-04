@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit",
     "dev": "pnpm --parallel dev",
     "metric": "tsx packages/metrics/src/cli.ts",
+    "fork": "tsx packages/metrics/src/cli/fork.ts",
     "agent": "tsx packages/agent/src/cli.ts",
     "evals": "vitest run evals/",
     "e2e": "playwright test"

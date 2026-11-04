@@ -1,0 +1,14 @@
+{
+  "id": "spark",
+  "name": "Spark",
+  "aliases": ["spark-protocol", "spark-aave", "sparkfi", "spark protocol"],
+  "template": "lending-aave",
+  "parentProtocol": "aave-v3",
+  "chains": {
+    "1": {
+      "startBlock": 16948801,
+      "pool": "0xC13e21B648A5Ee794902342038FF3aDAB66BE987"
+    }
+  },
+  "notes": "MakerDAO fork of Aave V3. Pool address from https://docs.spark.fi/dev/addresses. Same Supply/Borrow/LiquidationCall event signatures as Aave V3. Main asset: DAI/sDAI."
+}

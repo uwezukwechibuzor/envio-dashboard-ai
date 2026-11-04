@@ -1,0 +1,13 @@
+{
+  "id": "compound-v2",
+  "name": "Compound V2",
+  "aliases": ["compound_v2", "compv2", "compound v2", "comp-v2", "compound"],
+  "template": "lending-compound",
+  "chains": {
+    "1": {
+      "startBlock": 7710671,
+      "comptroller": "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3b"
+    }
+  },
+  "notes": "Ethereum only. Comptroller from https://compound.finance/docs/comptroller. CToken addresses discovered dynamically via MarketListed events. Uses Mint/Borrow events for transaction counting. USD valuation not available without oracle integration."
+}

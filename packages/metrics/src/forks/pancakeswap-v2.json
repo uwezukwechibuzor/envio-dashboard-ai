@@ -1,0 +1,14 @@
+{
+  "id": "pancakeswap-v2",
+  "name": "PancakeSwap V2",
+  "aliases": ["pancakeswap_v2", "pancake-v2", "cake-v2", "pancakeswap v2", "pancake"],
+  "template": "dex-v2",
+  "chains": {
+    "56": {
+      "startBlock": 6809737,
+      "factory": "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73"
+    }
+  },
+  "feeBps": 25,
+  "notes": "BSC-only. 0.25% fee. Factory from https://github.com/pancakeswap/pancake-swap-core. Note: BUSD liquidity migrated to USDT as main stablecoin on BSC in 2023; USDT is now the dominant stablecoin pair."
+}
