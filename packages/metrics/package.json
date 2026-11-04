@@ -1,0 +1,33 @@
+{
+  "name": "@envio-dashboard-ai/metrics",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@envio-dashboard-ai/core": "workspace:*",
+    "@envio-dashboard-ai/hypersync": "workspace:*",
+    "@envio-dev/hypersync-client": "^1.5.0",
+    "drizzle-orm": "^0.45.4",
+    "postgres": "^3.4.0",
+    "viem": "^2.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.11",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}

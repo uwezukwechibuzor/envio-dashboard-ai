@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@envio-dashboard-ai/core": ["./packages/core/src/index.ts"],
+      "@envio-dashboard-ai/hypersync": ["./packages/hypersync/src/index.ts"],
+      "@envio-dashboard-ai/metrics": ["./packages/metrics/src/index.ts"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*.ts"
+  ]
+}
