@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Cache
+.cache/
+.turbo/
+.eslintcache
+*.swp
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Postgres / local DB
+*.sql.gz
+pgdata/
+
+# Envio local indexer state
+.envio/
+
+# pnpm
+pnpm-lock.yaml.bak
