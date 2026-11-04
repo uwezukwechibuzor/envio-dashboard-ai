@@ -24,6 +24,8 @@ export default tseslint.config(
       'eslint.config.mjs',
       'vitest.workspace.ts',
       '**/*.config.ts',
+      '**/*.config.mjs',
+      '**/*.config.js',
     ],
   },
 );
