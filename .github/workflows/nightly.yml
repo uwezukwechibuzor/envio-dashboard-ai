@@ -113,7 +113,7 @@ jobs:
           merge-multiple: true
 
       - name: Post commit status
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const reconcile = '${{ needs.reconciliation.result }}';
