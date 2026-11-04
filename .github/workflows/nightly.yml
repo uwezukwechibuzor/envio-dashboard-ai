@@ -1,0 +1,132 @@
+name: Nightly evals
+
+on:
+  schedule:
+    # 02:00 UTC every day
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      post_summary:
+        description: Post summary comment to latest commit
+        type: boolean
+        default: true
+
+jobs:
+  reconciliation:
+    name: Reconciliation vs DefiLlama
+    runs-on: ubuntu-latest
+    env:
+      ENVIO_API_TOKEN: ${{ secrets.ENVIO_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm -r --filter './packages/*' build
+
+      - name: Run reconciliation tests
+        id: reconcile
+        run: |
+          pnpm test:reconcile --reporter=json 2>&1 | tee reconcile-results.json
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+
+      - name: Upload reconciliation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: reconcile-results-${{ github.run_id }}
+          path: reconcile-results.json
+
+      - name: Fail if reconciliation failed
+        if: steps.reconcile.outputs.exit_code != '0'
+        run: exit 1
+
+  agent-evals:
+    name: Agent eval suite (30+ prompts)
+    runs-on: ubuntu-latest
+    env:
+      ENVIO_API_TOKEN: ${{ secrets.ENVIO_API_TOKEN }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm -r --filter './packages/*' build
+
+      - name: Run agent evals
+        id: evals
+        run: |
+          pnpm evals --reporter=json 2>&1 | tee eval-results.json
+          PASS_RATE=$(node -e "
+            const r = JSON.parse(require('fs').readFileSync('eval-results.json','utf8'));
+            const total = r.numTotalTests ?? 0;
+            const passed = r.numPassedTests ?? 0;
+            console.log(total > 0 ? Math.round(passed/total*100) : 0);
+          ")
+          echo "pass_rate=$PASS_RATE" >> "$GITHUB_OUTPUT"
+          echo "Eval pass rate: $PASS_RATE%"
+        continue-on-error: true
+
+      - name: Upload eval results
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results-${{ github.run_id }}
+          path: eval-results.json
+
+      - name: Block release if pass rate < 90%
+        if: steps.evals.outputs.pass_rate < 90
+        run: |
+          echo "::error::Agent eval pass rate dropped below 90% (got ${{ steps.evals.outputs.pass_rate }}%). Release blocked."
+          exit 1
+
+  post-summary:
+    name: Post nightly summary
+    runs-on: ubuntu-latest
+    needs: [reconciliation, agent-evals]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "*-results-${{ github.run_id }}"
+          merge-multiple: true
+
+      - name: Post commit status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const reconcile = '${{ needs.reconciliation.result }}';
+            const evals = '${{ needs.agent-evals.result }}';
+            const overall = (reconcile === 'success' && evals === 'success') ? 'success' : 'failure';
+            const body = `## Nightly report — ${new Date().toISOString().slice(0,10)}\n\n` +
+              `| Check | Status |\n|---|---|\n` +
+              `| Reconciliation vs DefiLlama | ${reconcile === 'success' ? '✅ passed' : '❌ failed'} |\n` +
+              `| Agent eval suite | ${evals === 'success' ? '✅ passed' : '❌ failed'} |\n\n` +
+              `Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body,
+            });

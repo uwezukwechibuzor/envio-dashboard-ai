@@ -53,7 +53,7 @@ The upsell: "deploy this as your own indexer on Envio Cloud."
 ```
 envio-dashboard-ai/
   packages/
-    core/           # zod schemas: MetricSeries, DashboardSpec, ProtocolPack, errors
+    core/           # Zod schemas: MetricSeries, DashboardSpec, telemetry
     hypersync/      # typed wrapper over @envio-dev/hypersync-client → daily buckets
     metrics/        # metric engine + protocol packs (adapters) + registry + cache
       packs/
@@ -64,12 +64,19 @@ envio-dashboard-ai/
         erc4626/
         erc20/
         generic-activity/
-    mcp-server/     # envio-data-mcp: stdio + Streamable HTTP MCP server
+      worker/       # backfill.ts — background pre-computation worker
+    mcp-server/     # envio-data-mcp: stdio + Streamable HTTP MCP server (npm published)
     agent/          # Claude tool-use loop → DashboardSpec
   apps/
     web/            # Next.js 15: chat + dashboard renderer + saved/shared dashboards
   evals/            # prompt → expected spec/metrics test suite
-  docs/             # architecture, add-a-protocol guide, playbook
+  docs/             # add-a-protocol, mcp, methodology, playbook
+  .github/
+    workflows/      # ci.yml, nightly.yml, release.yml
+  .changeset/       # changesets config for versioning
+  Dockerfile        # multi-stage image for MCP server on Railway/Fly
+  fly.toml          # Fly.io deployment config
+  vercel.json       # Vercel deployment config
 ```
 
 ## Commands
@@ -83,9 +90,29 @@ pnpm typecheck        # tsc --noEmit across workspace
 pnpm dev              # start web app + MCP server in watch mode
 pnpm metric <pack> <metric> --chain <chain> --days <n>  # run a single metric
 pnpm agent "<prompt>" # run the agent loop against a prompt
-pnpm evals            # run the eval suite
+pnpm evals            # run the eval suite (skips without ANTHROPIC_API_KEY)
 pnpm e2e              # Playwright E2E tests
+pnpm backfill         # pre-compute daily series for all packs (--days N --protocol X)
+pnpm changeset        # create a release changeset
 ```
+
+## Deploy
+
+**Web app (Vercel):** `vercel deploy` — set secrets in the Vercel dashboard.
+
+**MCP server (Fly.io):**
+```bash
+fly deploy
+fly secrets set ENVIO_API_TOKEN=... MCP_API_KEYS=...
+```
+
+**Postgres:** Vercel Postgres, Railway, or Neon. Set `DATABASE_URL`.
+
+**Required secrets (all platforms):**
+- `ENVIO_API_TOKEN` — HyperSync API token
+- `ANTHROPIC_API_KEY` — Claude API key
+- `DATABASE_URL` — Postgres connection string
+- `AUTH_SECRET`, `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` — web app only
 
 ## Coding Rules
 

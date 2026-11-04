@@ -16,9 +16,12 @@
     "fork": "tsx packages/metrics/src/cli/fork.ts",
     "agent": "tsx packages/agent/src/cli.ts",
     "evals": "vitest run evals/",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "changeset": "changeset",
+    "backfill": "tsx packages/metrics/src/worker/backfill.ts"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.0",
     "@eslint/js": "^9.18.0",
     "@types/node": "^22.0.0",
     "eslint": "^9.18.0",
