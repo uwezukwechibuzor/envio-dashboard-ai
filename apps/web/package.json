@@ -17,7 +17,7 @@
     "@envio-dashboard-ai/agent": "workspace:*",
     "@envio-dashboard-ai/core": "workspace:*",
     "@envio-dashboard-ai/metrics": "workspace:*",
-    "@tanstack/react-query": "^5.80.6",
+    "@tanstack/react-query": "^5.106.1",
     "drizzle-orm": "^0.45.4",
     "nanoid": "^5.1.5",
     "next": "^15.3.4",

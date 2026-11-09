@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.37.0",
+    "@anthropic-ai/sdk": "^0.137.0",
     "@envio-dashboard-ai/core": "workspace:*",
     "@envio-dashboard-ai/hypersync": "workspace:*",
     "@envio-dashboard-ai/metrics": "workspace:*",
