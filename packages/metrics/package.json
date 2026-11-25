@@ -21,7 +21,7 @@
     "@envio-dev/hypersync-client": "^1.5.0",
     "drizzle-orm": "^0.45.4",
     "postgres": "^3.4.0",
-    "viem": "^2.0.0",
+    "viem": "^2.57.19",
     "zod": "^4.6.7"
   },
   "devDependencies": {
